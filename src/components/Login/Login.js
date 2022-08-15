@@ -1,6 +1,5 @@
 import React from "react";
 import LoginPage from "../LoginPage/LoginPage.js";
-import { Redirect } from "react-router-dom";
 
 function Login() {
   const [email, setEmail] = React.useState("");
