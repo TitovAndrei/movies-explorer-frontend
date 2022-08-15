@@ -7,18 +7,19 @@ function Footer() {
     <>
       {location.pathname === "/sign-up" ||
       location.pathname === "/sign-in" ||
-      location.pathname === "/profile" ? (
+      location.pathname === "/profile" ||
+      location.pathname === "/404" ? (
         <></>
       ) : (
-        <footer>
+        <footer className="footer">
           <p className="footer__subtitle">
             Учебный проект Яндекс.Практикум х BeatFilm.
           </p>
-          <div>
+          <div className="footer__info">
             <p className="footer__copyright">
               &copy; {new Date().getFullYear()}
             </p>
-            <nav>
+            <nav className="footer__links">
               <a href="https://practicum.yandex.ru/" className="footer__link">
                 Яндекс.Практикум
               </a>

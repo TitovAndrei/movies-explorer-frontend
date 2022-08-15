@@ -1,1 +1,22 @@
-.moves {}
+.movies {
+    margin: 0 auto;
+}
+
+.movies__line {
+    max-width: 1140px;
+    height: 1px;
+    margin: 0px auto 0px auto;
+    background-color: #E8E8E8;
+}
+
+@media screen and (max-width: 1023px) {
+    .movies__line {
+        max-width: 708px;
+    }
+}
+
+@media screen and (max-width: 767px) {
+    .movies__line {
+        max-width: 292px;
+    }
+}

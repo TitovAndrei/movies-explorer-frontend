@@ -1,34 +1,60 @@
-import React from 'react';
+import React from "react";
+import MoviesCard from "../../components/MoviesCard/MoviesCard.js";
+import { movies } from "../../utils/constants.js";
+import searchIcon from "../../images/icon__COLOR_icon-color.svg";
 
-function Movies() {
+function Movies(props) {
+  const [newMovies, setNewMovies] = React.useState(
+    window.screen.width <= 800 
+    ? 
+    movies.slice(0, 8) 
+    : 
+    movies.slice(0, 12)
+  );
+
+  function handleMoviesChandge(evt) {
+    const newMovies = movies.slice(0, 15);
+    setNewMovies(newMovies);
+    props.onLoadingMovies();
+  }
+
   return (
-    <section className='moves'>
-      <form className='search-form'>
-        <input type='text' className='search-form__text'></input>
-        <button className='search-form__enter' />
-        <div className='search-form__switch'>
-          <input type='radio' value='off' checked className='search-form__radio-button' />
-          <input type='radio' value='on' className='search-form__radio-button search-form__radio-button_on' />
-          <label className='search-form__label'>Короткометражки</label>
+    <section className="moves">
+      <form className="search-form">
+        <div className="search-form__input">
+          <img
+            src={searchIcon}
+            alt="Иконка поиска"
+            className="search-form__icon"
+          />
+          <input type="text" className="search-form__text" placeholder="Фильм"></input>
+          <button className="search-form__enter" />
+        </div>
+        <div className="search-form__switch">
+          <label className="switch">
+            <input type="checkbox" />
+            <span className="slider round" />
+          </label>
+          <p className="search-form__span">Короткометражки</p>
         </div>
       </form>
-      <div className='movies-card-list'>
-        <article className='movies-card'>
-          <div className='movies-card__info'>
-            <h3 className='movies-card__title'>33 слова о дизайне</h3>
-            <p className='movies-card__duration'>1ч 47м</p>
-          </div>
-          <button
-            type='button'
-            aria-label='Кнопка сохранеиня фильма'
-            className='movies-card__saved'
+      <div className="movies__line" />
+      <div className="movies-card-list">
+        {newMovies.map((movie, id) => (
+          <MoviesCard
+            key={id}
+            duration={movie.duration}
+            thumbnail={movie.thumbnail}
+            nameRU={movie.nameRU}
+            card={movie}
+            cardButtonClassName="movies-card__saved"
+            cardButtonArialabel="Кнопка сохранения карточки"
           />
-          <img src='#' alt='' className='movies-card__image' />
-        </article>
+        ))}
       </div>
-      <div className='show-more'>
-        <button>Ещё</button>
-      </div>
+      <button className="show-more" onClick={handleMoviesChandge}>
+        Ещё
+      </button>
     </section>
   );
 }

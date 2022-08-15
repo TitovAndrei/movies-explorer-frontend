@@ -1,18 +1,154 @@
-.about-me {}
+.about-me {
+    margin: 0 auto;
+}
 
-.about-me__questionnaire {}
+.about-me__questionnaire {
+    display: flex;
+    padding-top: 66px;
+    padding-bottom: 86px;
+}
 
-.about-me__questionnaire-biography {}
+.about-me__questionnaire-biography {
+    display: flex;
+    flex-direction: column;
+}
 
-.about-me__questionnaire-name {}
+.about-me__questionnaire-name {
+    margin: 0;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 50px;
+    line-height: 58px;
+    letter-spacing: -0.04em;
+}
 
-.about-me__questionnaire-about {}
+.about-me__questionnaire-about {
+    font-style: normal;
+    font-weight: 500;
+    font-size: 18px;
+    line-height: 20px;
+    margin: 18px 0px 24px 0px;
+}
 
-.about-me__questionnaire-description {}
+.about-me__questionnaire-description {
+    font-style: normal;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 22px;
+    margin: 0px 277px 98px 0px;
+    max-width: 600px;
+}
 
-.about-me__questionnaire-links {}
+.about-me__questionnaire-links {
+    display: flex;
+    align-items: center;
+}
 
-.about-me__questionnaire-link {}
+.about-me__questionnaire-link {
+    font-style: normal;
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 17px;
+    text-decoration: none;
+    margin: 0px 20px 0px 0px;
+    color: #000;
+    transition: .5s;
+}
 
-.about-me__avatar {}
+.about-me__questionnaire-link:hover {
+    transition: .3s;
+    opacity: .7;
+    cursor: pointer;
+}
 
+.about-me__questionnaire-link:last-child {
+    margin: 0px 0px 0px 0px;
+}
+
+.about-me__avatar {
+    border-radius: 10px;
+    max-width: 270px;
+    max-height: 320px;
+}
+
+@media screen and (max-width: 1164px) {
+    .about-me__questionnaire {
+        padding-bottom: 91px;
+    }
+
+    .about-me__questionnaire-description {
+        font-size: 12px;
+        line-height: 18px;
+        margin: 0px 50px 87px 49px;
+        max-width: 364px;
+    }
+
+    .about-me__questionnaire-about {
+        font-size: 12px;
+        line-height: 18px;
+        margin: 16px 65px 20px 50px;
+    }
+
+    .about-me__questionnaire-name {
+        font-size: 40px;
+        line-height: 40px;
+        margin: 0px 0px 0px 50px;
+    }
+
+    .about-me__avatar {
+        border-radius: 10px;
+        max-width: 255px;
+        max-height: 307px;
+        margin: 0px 51px 0px 0px;
+    }
+
+    .about-me__questionnaire-links {
+        margin: 0px 0px 0px 50px;
+    }
+
+    .about-me__questionnaire-link {
+        margin: 0px 20px 0px 0px;
+    }
+}
+
+@media screen and (max-width: 767px) {
+    .about-me__questionnaire {
+        flex-direction: column-reverse;
+        padding-top: 60px;
+        padding-bottom: 69px;
+    }
+
+    .about-me__questionnaire-description {
+        font-size: 11px;
+        line-height: 16px;
+        margin: 0px 14px 40px 14px;
+        max-width: 292px;
+    }
+
+    .about-me__questionnaire-about {
+        font-size: 11px;
+        line-height: 16px;
+        margin: 20px 14px 20px 14px;
+    }
+
+    .about-me__questionnaire-name {
+        font-size: 30px;
+        line-height: 36px;
+        margin: 45px 31px 0px 11px;
+    }
+
+    .about-me__avatar {
+        border-radius: 10px;
+        max-width: 292px;
+        max-height: 352px;
+        margin: 0px 14px 0px 14px;
+    }
+
+    .about-me__questionnaire-links {
+        margin: 0px 0px 0px 14px;
+    }
+
+    .about-me__questionnaire-link {
+        margin: 0px 26px 0px 0px;
+    }
+}
