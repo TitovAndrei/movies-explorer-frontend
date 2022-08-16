@@ -15,7 +15,6 @@ function Login() {
 
   function handleSubmit(e) {
     e.preventDefault();
-    window.location.href = '/movies';
   }
 
   return (

@@ -3,7 +3,9 @@ import { Link } from 'react-router-dom';
 import logo from '../../images/logo.svg';
 
 export default function LoginPage({ formName, title, buttomClass, buttomText, children, onSubmit }) {
-
+  function buttonClick() {
+    window.location.href = '/movies';
+  }
 
   return (
     <div className='login-page'>
@@ -13,7 +15,7 @@ export default function LoginPage({ formName, title, buttomClass, buttomText, ch
         {children}
         <button name='submit-button'
           className={`login-page__submit-button ${buttomClass}`} type='submit'
-          aria-label='Кнопка сохранения формы' onSubmit={onSubmit}>{buttomText}</button>
+          aria-label='Кнопка сохранения формы' onClick={buttonClick} onSubmit={onSubmit}>{buttomText}</button>
       </form>
       {
         formName === 'register' ?

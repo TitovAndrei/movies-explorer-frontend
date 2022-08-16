@@ -53,13 +53,6 @@
     transition: .5s;
 }
 
-.tech__name:hover {
-    transition: .3s;
-    opacity: .7;
-    cursor: default;
-    background-color: #2BE080;
-}
-
 .tech__name:last-child {
     margin: 0px 0px 0px 0px;
 }
