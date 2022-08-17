@@ -71,7 +71,7 @@
     max-height: 320px;
 }
 
-@media screen and (max-width: 1164px) {
+@media screen and (max-width: 1160px) {
     .about-me__questionnaire {
         padding-bottom: 91px;
     }

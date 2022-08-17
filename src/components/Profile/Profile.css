@@ -82,12 +82,14 @@
 
 .profile__input {
     border: none;
+    width: 300px;
 }
 
 .profile__input:focus {
     outline: 0;
     border: none;
-    background-color: rgba(0, 0, 0, 0);
+    background-color: #E8E8E8;
+    border-radius: 10px;
 }
 
 .profile__field-error {
@@ -130,12 +132,13 @@
     }
 
     .profile__field {
-        margin: 5px 0px 10px 0px;
+        margin: 5px auto 10px auto;
     }
 
     .profile__button-edit {
         margin: 197px 0px 16px 0px;
     }
+    
 }
 
 @media screen and (max-width: 767px) {
@@ -144,12 +147,12 @@
     }
 
     .profile__field {
-        margin: 4px 0px 11px 0px;
+        margin: 4px auto 11px auto;
         width: 260px;
     }
 
     .profile__field:last-of-type {
-        margin: 0px 0px 0px 0px;
+        margin: 0px auto 0px auto;
     }
 
     .profile__button-edit {
@@ -161,5 +164,13 @@
     .profile__exit {
         font-size: 12px;
         line-height: 15px;
+    }
+
+    .profile__submit-button {
+        width: 260px;
+    }
+
+    .profile__input {
+        width: 150px;
     }
 }

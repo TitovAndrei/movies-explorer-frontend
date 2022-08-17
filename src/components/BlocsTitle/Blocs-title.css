@@ -13,7 +13,7 @@
     margin: 0 auto;
 }
 
-@media screen and (max-width: 1141px) {
+@media screen and (max-width: 1170px) {
     .blocs-title {
         max-width: 668px;
         padding-top: 90px;

@@ -45,16 +45,16 @@ function Main() {
             </p>
           </div>
         </div>
-        <div className="about-project__schedule">
-          <p className="about-project__stage about-project__stage_green">
+        <ul className="about-project__schedule">
+          <li className="about-project__stage about-project__stage_green">
             1 неделя
-          </p>
-          <p className="about-project__stage about-project__stage_gray">
+          </li>
+          <li className="about-project__stage about-project__stage_gray">
             4 недели
-          </p>
-          <p className="about-project__stage ">Back-end</p>
-          <p className="about-project__stage">Front-end</p>
-        </div>
+          </li>
+          <li className="about-project__stage ">Back-end</li>
+          <li className="about-project__stage">Front-end</li>
+        </ul>
       </section>
       <section id="tech" className="tech">
         <div className="tech__description">
@@ -64,15 +64,15 @@ function Main() {
             На курсе веб-разработки мы освоили технологии, которые применили в
             дипломном проекте.
           </p>
-          <div className="tech__list">
-            <p className="tech__name">HTML</p>
-            <p className="tech__name">CSS</p>
-            <p className="tech__name">JS</p>
-            <p className="tech__name">React</p>
-            <p className="tech__name">Git</p>
-            <p className="tech__name">Express.js</p>
-            <p className="tech__name">mongoDB</p>
-          </div>
+          <ul className="tech__list">
+            <li className="tech__name">HTML</li>
+            <li className="tech__name">CSS</li>
+            <li className="tech__name">JS</li>
+            <li className="tech__name">React</li>
+            <li className="tech__name">Git</li>
+            <li className="tech__name">Express.js</li>
+            <li className="tech__name">mongoDB</li>
+          </ul>
         </div>
       </section>
       <section id="about-me" className="about-me">
@@ -94,12 +94,16 @@ function Main() {
               <a
                 href="https://vk.com/idtens91"
                 className="about-me__questionnaire-link"
+                target="_blank"
+                rel="noreferrer"
               >
                 vk
               </a>
               <a
                 href="https://github.com/TitovAndrei"
                 className="about-me__questionnaire-link"
+                target="_blank"
+                rel="noreferrer"
               >
                 Github
               </a>
@@ -114,33 +118,41 @@ function Main() {
       </section>
       <section className="portfolio">
         <p className="portfolio__subtitle">Портфолио</p>
-        <div className="portfolio__chapter">
-          <a
-            href="https://github.com/TitovAndrei/how-to-learn"
-            className="portfolio__link"
-          >
-            Статичный сайт
-          </a>
-          <p className="portfolio__arrow">↗</p>
-        </div>
-        <div className="portfolio__chapter">
-          <a
-            href="https://github.com/TitovAndrei/russian-travel"
-            className="portfolio__link portfolio__link_center"
-          >
-            Адаптивный сайт
-          </a>
-          <p className="portfolio__arrow">↗</p>
-        </div>
-        <div className="portfolio__chapter">
-          <a
-            href="https://github.com/TitovAndrei/react-mesto-api-full/blob/main/README.md"
-            className="portfolio__link"
-          >
-            Одностраничное приложение
-          </a>
-          <p className="portfolio__arrow">↗</p>
-        </div>
+        <ul className="portfolio__chapter-list">
+          <li className="portfolio__chapter">
+            <a
+              href="https://github.com/TitovAndrei/how-to-learn"
+              className="portfolio__link"
+              target="_blank"
+              rel="noreferrer"
+            >
+              Статичный сайт
+              <p className="portfolio__arrow">↗</p>
+            </a>
+          </li>
+          <li className="portfolio__chapter">
+            <a
+              href="https://github.com/TitovAndrei/russian-travel"
+              className="portfolio__link portfolio__link_center"
+              target="_blank"
+              rel="noreferrer"
+            >
+              Адаптивный сайт
+              <p className="portfolio__arrow">↗</p>
+            </a>
+          </li>
+          <li className="portfolio__chapter">
+            <a
+              href="https://github.com/TitovAndrei/react-mesto-api-full/blob/main/README.md"
+              className="portfolio__link"
+              target="_blank"
+              rel="noreferrer"
+            >
+              Одностраничное приложение
+              <p className="portfolio__arrow">↗</p>
+            </a>
+          </li>
+        </ul>
       </section>
     </main>
   );

@@ -6,6 +6,7 @@
 
 .promo__rectangle {
     min-height: 493px;
+    max-width: 1200px;
     box-sizing: border-box;
     display: flex;
     justify-content: center;
@@ -50,6 +51,10 @@
         font-size: 40px;
         line-height: 52px;
     }
+
+    .promo__rectangle {
+        max-width: 768px;
+    }
 }
 
 @media screen and (max-width: 767px) {
@@ -63,5 +68,9 @@
         max-width: 292px;
         font-size: 29px;
         line-height: 37px;
+    }
+
+    .promo__rectangle {
+        max-width: 292px;
     }
 }

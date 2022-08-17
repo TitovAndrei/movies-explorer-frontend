@@ -69,8 +69,9 @@
 
 .login-page__field:focus {
     outline: 0;
-    border-bottom: #E8E8E8 1px solid;
-    background-color: rgba(0, 0, 0, 0);
+    background-color: #E8E8E8;
+    border-radius: 10px;
+
 }
 
 .login-page__input {
@@ -125,9 +126,9 @@
     cursor: pointer;
 }
 
-@media screen and (max-width: 1178px) {
+@media screen and (max-width: 1160px) {
     .login-page {
-        margin: 230px 190px 70px 187px;
+        margin: 230px auto 70px auto;
     }
 }
 

@@ -38,6 +38,8 @@
     display: grid;
     grid-template-columns: 228px 912px;
     grid-template-rows: auto auto;
+    list-style: none;
+    padding: 0;
 }
 
 .about-project__stage {
@@ -62,7 +64,7 @@
     
 }
 
-@media screen and (max-width: 1164px) {
+@media screen and (max-width: 1170px) {
     .about-project {
         margin: 0px 50px 0px 50px;
     }
@@ -92,6 +94,7 @@
 
     .about-project__description {
         flex-direction: column;
+        align-items: center;
     }
 
     .about-project__stage-title {

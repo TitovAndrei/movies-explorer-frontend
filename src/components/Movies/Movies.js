@@ -5,11 +5,7 @@ import searchIcon from "../../images/icon__COLOR_icon-color.svg";
 
 function Movies(props) {
   const [newMovies, setNewMovies] = React.useState(
-    window.screen.width <= 800 
-    ? 
-    movies.slice(0, 8) 
-    : 
-    movies.slice(0, 12)
+    window.screen.width <= 800 ? movies.slice(0, 8) : movies.slice(0, 12)
   );
 
   function handleMoviesChandge(evt) {
@@ -27,8 +23,19 @@ function Movies(props) {
             alt="Иконка поиска"
             className="search-form__icon"
           />
-          <input type="text" className="search-form__text" placeholder="Фильм"></input>
-          <button className="search-form__enter" />
+          <input
+            type="text"
+            className="search-form__text"
+            placeholder="Фильм"
+            required
+            minLength="2"
+            maxLength="40"
+          ></input>
+          <button
+            type="submit"
+            aria-label="Кнопка запуска фильтрации"
+            className="search-form__enter"
+          />
         </div>
         <div className="search-form__switch">
           <label className="switch">

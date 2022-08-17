@@ -22,7 +22,7 @@
     cursor: pointer;
 }
 
-@media screen and (max-width: 1023px) {
+@media screen and (max-width: 1160px) {
     .show-more {
         margin: 80px auto 21px auto;
     }

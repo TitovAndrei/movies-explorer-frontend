@@ -62,7 +62,7 @@
     margin: 0px 0px 14px 0px;
 }
 
-@media screen and (max-width: 1023px) {
+@media screen and (max-width: 1160px) {
     .navigation__link {
         visibility: hidden;
     }

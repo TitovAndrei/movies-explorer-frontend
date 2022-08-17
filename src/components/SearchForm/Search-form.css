@@ -23,20 +23,20 @@
 }
 
 .search-form__text {
-    width: 500px;
+    width: 700px;
     font-style: normal;
     font-weight: 400;
     font-size: 18px;
     line-height: 20px;
     border: none;
     background-color: rgba(0, 0, 0, 0);
-    margin: 0px 235px 0px 0px;
+    margin: 0px 35px 0px 0px;
 }
 
 .search-form__text:focus {
     outline: 0;
     border: none;
-    background-color: rgba(0, 0, 0, 0);
+    background-color: #fff;
 }
 
 .search-form__enter {
@@ -78,7 +78,7 @@
     margin: 0px 0px 0px 14px;
 }
 
-@media screen and (max-width: 1023px) {
+@media screen and (max-width: 1160px) {
     .search-form__text {
         width: 322px;
         margin: 0px 12px 0px 0px;
