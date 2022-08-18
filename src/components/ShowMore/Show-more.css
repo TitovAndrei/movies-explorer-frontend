@@ -1,0 +1,37 @@
+.show-more {
+    width: 320px;
+    height: 36px;
+    background-color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 12px;
+    line-height: 15px;
+    text-align: center;
+    margin: 80px auto 0px auto;
+    border: #E8E8E8 1px solid;
+    border-radius: 6px;
+    transition: .5s;
+}
+
+.show-more:hover {
+    transition: .3s;
+    opacity: 0.8;
+    cursor: pointer;
+}
+
+@media screen and (max-width: 1160px) {
+    .show-more {
+        margin: 80px auto 21px auto;
+    }
+}
+
+@media screen and (max-width: 767px) {
+    .show-more {
+        width: 237px;
+        height: 36px;
+        margin: 80px auto 21px auto;
+    }
+}

@@ -1,0 +1,117 @@
+.tech {
+    background-color: #F5F5F5;
+}
+
+.tech__description {
+    margin: 0 5% 0 5%;
+}
+
+.tech__title {
+    margin: 88px auto 26px auto;
+    max-width: 600px;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 50px;
+    line-height: 58px;
+    text-align: center;
+    letter-spacing: -0.04em;
+}
+
+.tech__subtitle {
+    margin: 0 auto;
+    max-width: 460px;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 20px;
+    text-align: center;
+    letter-spacing: -0.04em;
+}
+
+.tech__list {
+    margin: 97px auto 101px auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    list-style: none;
+    padding: 0;
+}
+
+.tech__name {
+    width: 90px;
+    height: 60px;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 17px;
+    text-align: center;
+    letter-spacing: -0.04em;
+    background-color: #E8E8E8;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0px 10px 0px 0px;
+    transition: .5s;
+}
+
+.tech__name:last-child {
+    margin: 0px 0px 0px 0px;
+}
+
+@media screen and (max-width: 1164px) {
+    .tech__subtitle {
+        font-size: 12px;
+        line-height: 18px;
+    }
+
+    .tech__list {
+        margin: 81px auto 89px auto;
+    }
+
+    .tech__name {
+        width: 84px;
+        height: 57px;
+        font-size: 12px;
+        line-height: 15px;
+    }
+
+    .tech__title {
+        margin: 79px auto 26px auto;
+    }
+}
+
+@media screen and (max-width: 767px) {
+    .tech {
+        background-color: #fff;
+    }
+
+    .tech__title {
+        font-size: 30px;
+        line-height: 36px;
+        margin: 64px auto 26px auto;
+    }
+
+    .tech__subtitle {
+        font-size: 11px;
+        line-height: 16px;
+    }
+
+    .tech__list {
+        margin: 41px 50px 86px 46px;
+        flex-wrap: wrap;
+        justify-content: flex-start;
+    }
+
+    .tech__name {
+        width: 84px;
+        height: 57px;
+        font-size: 12px;
+        line-height: 15px;
+        margin: 5px 12px 0px 0px;
+    }
+
+    .tech__name:last-child {
+        margin: 5px 0px 0px 0px;
+    }
+}
