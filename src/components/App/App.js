@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import Header from "../Header/Header.js";
 import Footer from "../Footer/Footer.js";
 import Movies from "../Movies/Movies.js";
@@ -9,13 +9,17 @@ import Profile from "../Profile/Profile.js";
 import NotFoundPages from "../NotFoundPages/NotFoundPages.js";
 import Preloader from "../Preloader/Preloader.js";
 import HamburgerMenu from "../HamburgerMenu/HamburgerMenu.js";
+import { CurrentUserContext } from "../../contexts/CurrentUserContext.js";
+import ProtectedRoute from "../ProtectedRoute/ProtectedRoute.js";
 
 import { Route, Switch, Redirect, withRouter } from "react-router-dom";
 import Main from "../Main/Main.js";
 
 function App() {
-  const [isPreloaderPopupOpen, setIsPreloaderPopupOpen] = React.useState(false);
-  const [isHamburgerMenuOpen, setIsHamburgerMenuOpen] = React.useState(false);
+  const [currentUser, setCurrentUser] = useState({});
+  const [loggedIn, setLoggedIn] = useState(false);
+  const [isPreloaderPopupOpen, setIsPreloaderPopupOpen] = useState(false);
+  const [isHamburgerMenuOpen, setIsHamburgerMenuOpen] = useState(false);
 
   function handleHamburgerMenuClick() {
     setIsHamburgerMenuOpen(true);
@@ -49,41 +53,51 @@ function App() {
   }, [isOpen]);
 
   return (
-    <div className="App">
-      <div className="body">
-        <Header onHamburgerMenu={handleHamburgerMenuClick}/>
-        <Switch>
-          <Route path="/movies">
-            <Movies onLoadingMovies={handleLoadingMoviesClick} />
-          </Route>
-          <Route path="/saved-movies">
-            <SavedMovies />
-          </Route>
-          <Route path="/sign-up">
-            <Register />
-          </Route>
-          <Route path="/sign-in">
-            <Login />
-          </Route>
-          <Route path="/profile">
-            <Profile />
-          </Route>
-          <Route exact path="/">
-            <Main />
-          </Route>
-          <Route path="*">
-            <Redirect to="/404" />
-            <NotFoundPages />
-          </Route>
-        </Switch>
-        <Footer />
+    <CurrentUserContext.Provider value={currentUser}>
+      <div className="App">
+        <div className="body">
+          <Header onHamburgerMenu={handleHamburgerMenuClick} />
+          <Switch>
+            <ProtectedRoute
+              exact
+              path="/movies"
+              loggedIn={loggedIn}
+              component={Movies}
+              onLoadingMovies={handleLoadingMoviesClick}
+            />
+            <ProtectedRoute
+              exact
+              path="/saved-movies"
+              loggedIn={loggedIn}
+              component={Movies}
+            />
+            <ProtectedRoute
+              exact
+              path="/profile"
+              loggedIn={loggedIn}
+              component={Movies}
+            />
+            <Route path="/sign-up">
+              <Register />
+            </Route>
+            <Route path="/sign-in">
+              <Login />
+            </Route>
+            <Route exact path="/">
+              <Main />
+            </Route>
+            <Route path="*">
+              <Redirect to="/404" />
+              <NotFoundPages />
+            </Route>
+          </Switch>
+          <Footer />
+        </div>
+        {/* Тестово прелоудер пока закрываю клавишей esc */}
+        <Preloader isOpen={isPreloaderPopupOpen} />
+        <HamburgerMenu isOpen={isHamburgerMenuOpen} onClose={closeAllPopups} />
       </div>
-      {/* Тестово прелоудер пока закрываю клавишей esc */}
-      <Preloader isOpen={isPreloaderPopupOpen} />
-      <HamburgerMenu 
-      isOpen={isHamburgerMenuOpen}
-      onClose={closeAllPopups}/>
-    </div>
+    </CurrentUserContext.Provider>
   );
 }
 
