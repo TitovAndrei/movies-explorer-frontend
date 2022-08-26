@@ -1,4 +1,4 @@
-const movies = JSON.parse(localStorage.getItem("moves"));
+// const movies = JSON.parse(localStorage.getItem("moves"));
 const savedMovies = JSON.parse(localStorage.getItem("savedMovies"));
 const apiUrl = "https://api.titov.nomoredomains.xyz";
 const MovieApiUrl = "https://api.nomoreparties.co";
@@ -19,4 +19,4 @@ function errorDetection(err) {
   }
 }
 
-export { movies, apiUrl, errorDetection, MovieApiUrl, savedMovies };
+export { apiUrl, errorDetection, MovieApiUrl, savedMovies };

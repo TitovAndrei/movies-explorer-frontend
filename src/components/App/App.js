@@ -32,9 +32,10 @@ import {
 import { getMovies } from "../../utils/MoviesApi.js";
 import ErrorPopup from "../ErrorPopup/ErrorPopup.js";
 import { errorDetection } from "../../utils/constants.js";
-import { movies, savedMovies } from "../../utils/constants.js";
+import { savedMovies } from "../../utils/constants.js";
 
 function App() {
+  const [movies, setMovies] = useState([]);
   const [currentUser, setCurrentUser] = useState({});
   const [newMovies, setNewMovies] = useState([]);
   const [newSavedMovies, setNewSavedMovies] = React.useState([]);
@@ -53,16 +54,6 @@ function App() {
 
   // эфекты при загрузке страницы
   useEffect(() => {
-    getMovies()
-      .then((res) => {
-        if (res) {
-          localStorage.setItem("moves", JSON.stringify(res));
-        }
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-    getMoviesSave();
     onLogin();
   }, []);
 
@@ -119,9 +110,21 @@ function App() {
           setCurrentUser(res);
           setLoggedIn(true);
           history.push("/movies");
+          getMoviesSave();
+          getMovies()
+            .then((res) => {
+              if (res) {
+                localStorage.setItem("moves", JSON.stringify(res));
+                setMovies(res);
+              }
+            })
+            .catch((err) => {
+              console.log(err);
+            });
         })
         .catch((err) => console.log(err));
     }
+    
   }
 
   // выход из прифиля
@@ -137,8 +140,7 @@ function App() {
     setMessage("");
     handleLoading();
     setRegistration(name, email, password)
-      .then((newUserInfo) => {
-        console.log(newUserInfo);
+      .then(() => {
         handleAuth(email, password);
         closeAllPopups();
       })
@@ -168,14 +170,12 @@ function App() {
           })
           .then(() => {
             onLogin();
-            history.push("/movies");
             closeAllPopups();
           });
       })
       .catch((err) => {
         closeAllPopups();
-        setMessage(err);
-        console.log(err);
+        setMessage(errorDetection(err));
       });
   }
 
@@ -256,8 +256,8 @@ function App() {
   function getMoviesSave() {
     getSavedMove()
       .then((movies) => {
-        localStorage.setItem("savedMovies", JSON.stringify(movies));
         setNewSavedMovies(movies);
+        localStorage.setItem("savedMovies", JSON.stringify(movies));
         movies.forEach((movie) => {
           const newMovie = movies.find((i) => i.id === movie.movieId);
           if (newMovie !== undefined) {
@@ -268,9 +268,8 @@ function App() {
           }
         });
       })
-      .catch((err) => {
+      .catch(() => {
         setNewSavedMovies([]);
-        console.log(err);
       });
   }
 
@@ -303,7 +302,6 @@ function App() {
 
   // удаление фильма
   function onChangeDeleteMovies(movieId) {
-    console.log(movieId);
     deleteMoves(movieId)
       .then(() => {
         getMoviesSave();

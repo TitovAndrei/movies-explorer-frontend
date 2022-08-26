@@ -3,7 +3,6 @@ import MoviesCard from "../../components/MoviesCard/MoviesCard.js";
 import searchIcon from "../../images/icon__COLOR_icon-color.svg";
 
 export default function SavedMovies(props) {
-  console.log(props.movies);
   // первоначальная загрузка массива фильмов
   useEffect(() => {
     if (props.checboxMoviesSaved === true) {
@@ -20,7 +19,6 @@ export default function SavedMovies(props) {
 
   const [searchText, setSearchText] = useState("");
   const [checkbox, setCheckbox] = useState(false);
-
   const [errorsSearchText, setErrorsSearchText] = React.useState("");
 
   // отслеживаем состояние чекбокса

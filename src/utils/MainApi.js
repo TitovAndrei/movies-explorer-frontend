@@ -1,4 +1,4 @@
-import { apiUrl } from "./constants";
+import { apiUrl } from "./constants.js";
 
 // регистрация
 async function setRegistration(name, email, password) {
@@ -34,7 +34,6 @@ async function getAuthorization(email, password) {
 // Параметры запроса для проверки валидности токена и получения email для вставки в шапку сайта
 async function getMe(token) {
   const res = await fetch(`${apiUrl}/users/me`, {
-    credentials: "include",
     headers: {
       Authorization: `Bearer ${localStorage.getItem("jwt")}`,
       "Content-Type": "application/json",
@@ -76,7 +75,6 @@ async function savedMoves(
       Authorization: `Bearer ${localStorage.getItem("jwt")}`,
       "Content-Type": "application/json",
     },
-    credentials: "include",
     method: "POST",
     body: JSON.stringify({
       country,
@@ -102,7 +100,6 @@ async function deleteMoves(movieId) {
     headers: {
       Authorization: `Bearer ${localStorage.getItem("jwt")}`,
     },
-    credentials: "include",
     method: "DELETE",
   });
   return checkResponse(res);
@@ -112,11 +109,11 @@ async function deleteMoves(movieId) {
 // отправка информации на сервер
 async function setProfileInformation(email, name) {
   const res = await fetch(`${apiUrl}/users/me`, {
-    method: "PATCH",
     headers: {
       Authorization: `Bearer ${localStorage.getItem("jwt")}`,
       "Content-Type": "application/json",
     },
+    method: "PATCH",
     body: JSON.stringify({
       email,
       name,

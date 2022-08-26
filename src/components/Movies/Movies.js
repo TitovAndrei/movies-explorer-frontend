@@ -10,16 +10,17 @@ function Movies(props) {
   // первоначальная загрузка массива фильмов
   useEffect(() => {
     setNewMovies(props.movies);
+    setSearchText(props.seachTextMovies);
+    setCheckbox(props.checboxMovies);
     if (props.checboxMovies === true) {
       document.getElementById("checkboxSearch").checked = true;
       setCheckbox(true);
-      moviesSearch();
+      moviesSearch(props.seachTextMovies, props.checboxMovies);
     } else {
       document.getElementById("checkboxSearch").checked = false;
       setCheckbox(false);
-      moviesSearch();
+      moviesSearch(props.seachTextMovies, props.checboxMovies);
     }
-    setSearchText(props.seachTextMovies);
   }, []);
 
   const [searchText, setSearchText] = useState("");
@@ -47,16 +48,15 @@ function Movies(props) {
   function checkboxClick() {
     if (checkbox) {
       setCheckbox(false);
-      } else {
+    } else {
       setCheckbox(true);
     }
   }
 
   useEffect(() => {
-    props.onSearchMovies(searchText, checkbox);
+    const text = searchText ? searchText : props.seachTextMovies;
+    moviesSearch(text, checkbox);
   }, [checkbox]);
-
-  console.log(checkbox)
 
   // отслеживаем состояние строки поиска
   function handleSearchTextChandge(evt) {
@@ -70,8 +70,8 @@ function Movies(props) {
     props.onSearchMovies(searchText, checkbox);
   }
 
-  function moviesSearch() {
-    props.onSearchMovies(props.seachTextMovies, props.checboxMovies);
+  function moviesSearch(seachText, checbox) {
+    props.onSearchMovies(seachText, checbox);
   }
 
   // перерисовываем фильмы если изменился массив в промисе
