@@ -25,7 +25,7 @@
     padding: 0px 0px 16px 0px;
 }
 
-.login-page__submit-button  {
+.login-page__submit-button {
     color: #fff;
     background: #3456F3;
     border: none;
@@ -40,8 +40,16 @@
     text-align: center;
     width: 396px;
     height: 45px;
-    margin: 126px 0px 0px 0px;
     transition: .5s;
+}
+
+.login-page__submit-button_disabled {
+    background-color: #fff;
+    color: #000;
+    border: 1px solid #000000;
+    box-sizing: border-box;
+    border-radius: 3px;
+    opacity: .2;
 }
 
 .login-page__submit-button:hover {
@@ -50,8 +58,13 @@
     cursor: pointer;
 }
 
+.login-page__submit-button_disabled:hover {
+    opacity: .2;
+    cursor: default;
+}
+
 .login-page__submit-button_auth {
-    margin: 195px 0px 0px 0px;
+    margin: 10px 0px 0px 0px;
 }
 
 .login-page__field {
@@ -63,8 +76,16 @@
     background-color: rgba(0, 0, 0, 0);
     border: none;
     border-bottom: #E8E8E8 1px solid;
-    margin: 0px 0px 24px 0px;
-    padding: 2px 0px 13px 0px;
+    padding: 2px 0px 6px 0px;
+}
+
+.login-page__field-error {
+    font-style: normal;
+    font-weight: 400;
+    font-size: 10px;
+    line-height: 12px;
+    color: #FF3055;
+    margin: 0;
 }
 
 .login-page__field:focus {
@@ -81,15 +102,8 @@
     font-size: 10px;
     line-height: 12px;
     color: #A0A0A0;
+    margin: 0px 0px 24px 0px;
     padding: 0px 0px 0px 0px;
-}
-
-.login-page__field-error {
-    font-style: normal;
-    font-weight: 400;
-    font-size: 10px;
-    line-height: 12px;
-    color: #FF3055;
 }
 
 .login-page__basement {
@@ -126,6 +140,13 @@
     cursor: pointer;
 }
 
+.login-page__container {
+    margin: 185px 0px 0px 0px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
 @media screen and (max-width: 1160px) {
     .login-page {
         margin: 230px auto 70px auto;
@@ -145,8 +166,11 @@
         height: 465px;
     }
 
-    .login-page__submit-button  {
+    .login-page__submit-button {
         width: 260px;
+    }
+
+    .login-page__container {
         margin: 207px 0px 0px 0px;
     }
 

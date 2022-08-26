@@ -1,10 +1,71 @@
-import React from "react";
+import React, { useEffect } from "react";
 
 export default function MoviesCard(props) {
-  const [cardLike, setCardLike] = React.useState('');
-  
-  function handleSaveClick() {
-      setCardLike('movies-card__saved_actived');
+  const [movieSaved, setMovieSaved] = React.useState(false);
+
+  // определяю иконку лайка и удаления карточки
+  useEffect(() => {
+    cardLikeButtonClassName();
+  }, [movieSaved]);
+
+  function cardLikeButtonClassName() {
+    if (props.savedStatus) {
+      return "movies-card__saved movies-card__saved_actived";
+    }
+    if (props.buttonDelMovie) {
+      return "movies-card__delete";
+    }
+    if (movieSaved) {
+      return "movies-card__saved movies-card__saved_actived";
+    } else {
+      return "movies-card__saved";
+    }
+  }
+
+  function handleMovieSaved() {
+    if (movieSaved) {
+      setMovieSaved(false);
+      props.onDeleteMovie(props.movie.id);
+    }
+    if (props.buttonDelMovie) {
+      props.onDeleteMovie(props.movie.movieId);
+    }
+    if (!movieSaved && !props.buttonDelMovie) {
+      setMovieSaved(true);
+      const savedMovies = {
+        country: props.movie.country,
+        director: props.movie.director,
+        duration: props.duration,
+        year: props.movie.year,
+        description: props.movie.description,
+        image: `https://api.nomoreparties.co${props.movie.image.url}`,
+        trailerLink: props.trailerLink,
+        thumbnail: `https://api.nomoreparties.co${props.movie.image.url}`,
+        owner: props.currentUser._id,
+        movieId: props.movie.id,
+        nameRU: props.nameRU,
+        nameEN: props.movie.nameEN,
+      };
+      props.onSavedMovie(savedMovies);
+    }
+  }
+
+  // редирект на трейлер по клику на изображение
+  function watchTrailer() {
+    window.open(props.trailerLink);
+  }
+
+  // отрbсовка времени фильма
+  function movieDuration() {
+    const minutes = props.duration % 60;
+    const hours = Math.floor(props.duration / 60);
+    const transformationMinutes = (i) => {
+      return i.toString().padStart(2, "0");
+    };
+    const transformationTime = (i) => {
+      return i.toString().padStart(1, "0");
+    };
+    return `${transformationTime(hours)}ч ${transformationMinutes(minutes)}м`;
   }
 
   return (
@@ -12,16 +73,21 @@ export default function MoviesCard(props) {
       <div className="movies-card__info">
         <div className="movies-card__content">
           <h3 className="movies-card__title">{props.nameRU}</h3>
-          <p className="movies-card__duration">{props.duration}</p>
+          <p className="movies-card__duration">{movieDuration()}</p>
         </div>
         <button
           type="button"
           aria-label={props.cardButtonArialabel}
-          className={`${props.cardButtonClassName} ${cardLike}`}
-          onClick={handleSaveClick}
+          className={cardLikeButtonClassName()}
+          onClick={handleMovieSaved}
         />
       </div>
-      <img src={props.thumbnail} alt="" className="movies-card__image" />
+      <img
+        src={props.imageSrc}
+        alt={props.nameRU}
+        className="movies-card__image"
+        onClick={watchTrailer}
+      />
     </article>
   );
 }

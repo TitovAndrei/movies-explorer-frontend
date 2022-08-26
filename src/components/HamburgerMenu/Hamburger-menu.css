@@ -109,6 +109,9 @@
     margin: 0px 0px 0px 0px;
 }
 
+.hamburger-menu__link_activ {
+    border-bottom: 2px #000 solid;
+}
 
 @media screen and (max-width: 1160px) {
     .hamburger-menu_button {
@@ -131,7 +134,7 @@
     .hamburger-menu__links {
         margin: 76px 0px 324px 0px;
     }
-    
+
     .hamburger-menu__link {
         margin: 24px 0px 0px 0px;
     }
