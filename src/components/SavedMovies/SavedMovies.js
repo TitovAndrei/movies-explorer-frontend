@@ -3,23 +3,20 @@ import MoviesCard from "../../components/MoviesCard/MoviesCard.js";
 import searchIcon from "../../images/icon__COLOR_icon-color.svg";
 
 export default function SavedMovies(props) {
-  // первоначальная загрузка массива фильмов
-  useEffect(() => {
-    if (props.checboxMoviesSaved === true) {
-      document.getElementById("checkboxSearch").checked = true;
-      setCheckbox(true);
-      moviesSearch();
-    } else {
-      document.getElementById("checkboxSearch").checked = false;
-      setCheckbox(false);
-      moviesSearch();
-    }
-    setSearchText(props.seachTextMoviesSaved);
-  }, []);
-
+  
   const [searchText, setSearchText] = useState("");
   const [checkbox, setCheckbox] = useState(false);
   const [errorsSearchText, setErrorsSearchText] = React.useState("");
+  const [isValidText, setIsValidText] = useState(false);
+  const [isButtonActiv, setIsButtonActiv] = useState(false);
+
+  useEffect(() => {
+    if (isValidText) {
+      setIsButtonActiv(true);
+    } else {
+      setIsButtonActiv(false);
+    }
+  }, [isValidText]);
 
   // отслеживаем состояние чекбокса
   function checkboxClick() {
@@ -32,18 +29,25 @@ export default function SavedMovies(props) {
 
   // отслеживаем состояние строки поиска
   function handleSearchTextChandge(evt) {
-    setSearchText(evt.target.value);
-    setErrorsSearchText(evt.target.validationMessage);
+    const target = evt.target;
+    setSearchText(target.value);
+    if(target.value === ""){
+      setErrorsSearchText("Нужно ввести ключевое слово");
+      setIsValidText(false);
+    } else if (target.value !== "") {
+      setErrorsSearchText(target.validationMessage);
+      if (!target.validationMessage) {
+        setIsValidText(true);
+      } else {
+        setIsValidText(false);
+      }
+    }
   }
 
   // запускаем поиск фильмов
   function handleMoviesSearch(e) {
     e.preventDefault();
     props.onSearchMovies(searchText, checkbox);
-  }
-
-  function moviesSearch() {
-    props.onSearchMovies(props.seachTextMoviesSaved, props.checboxMoviesSaved);
   }
 
   return (
@@ -63,17 +67,18 @@ export default function SavedMovies(props) {
               required
               minLength="2"
               maxLength="40"
-              value={searchText || props.seachTextMoviesSaved}
+              value={searchText || ""}
               onChange={handleSearchTextChandge}
             />
             <span className="search-form__field-error">
-              {props.message || errorsSearchText}
+            { errorsSearchText }
             </span>
           </label>
           <button
             className="search-form__enter"
             type="submit"
             aria-label="Кнопка запуска фильтрации"
+            disabled={!isButtonActiv ? true : ""}
           />
         </div>
         <div className="search-form__switch">
@@ -92,7 +97,7 @@ export default function SavedMovies(props) {
       <div className="movies-card-list">
         {props.movies.map((movie, id) => (
           <MoviesCard
-            key={id}
+            key={movie.movieId}
             duration={movie.duration}
             thumbnail={movie.thumbnail}
             nameRU={movie.nameRU}

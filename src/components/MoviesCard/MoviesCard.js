@@ -23,31 +23,30 @@ export default function MoviesCard(props) {
   }
 
   function handleMovieSaved() {
-    if (movieSaved) {
-      setMovieSaved(false);
-      props.onDeleteMovie(props.movie.id);
-    }
-    if (props.buttonDelMovie) {
-      props.onDeleteMovie(props.movie.movieId);
-    }
-    if (!movieSaved && !props.buttonDelMovie) {
-      setMovieSaved(true);
-      const savedMovies = {
-        country: props.movie.country,
-        director: props.movie.director,
-        duration: props.duration,
-        year: props.movie.year,
-        description: props.movie.description,
-        image: `https://api.nomoreparties.co${props.movie.image.url}`,
-        trailerLink: props.trailerLink,
-        thumbnail: `https://api.nomoreparties.co${props.movie.image.url}`,
-        owner: props.currentUser._id,
-        movieId: props.movie.id,
-        nameRU: props.nameRU,
-        nameEN: props.movie.nameEN,
-      };
-      props.onSavedMovie(savedMovies);
-    }
+      if (movieSaved) {
+        setMovieSaved(false);
+        props.onDeleteMovie(props.movie);
+      }
+      if (props.buttonDelMovie) {
+        props.onDeleteMovie(props.movie._id);
+      }
+      if (!movieSaved && !props.buttonDelMovie) {
+        setMovieSaved(true);
+        const savedMovies = {
+          country: props.movie.country,
+          director: props.movie.director,
+          duration: props.duration,
+          year: props.movie.year,
+          description: props.movie.description,
+          image: `https://api.nomoreparties.co${props.movie.image.url}`,
+          trailerLink: props.trailerLink,
+          thumbnail: `https://api.nomoreparties.co${props.movie.image.url}`,
+          movieId: props.movie.id,
+          nameRU: props.nameRU,
+          nameEN: props.movie.nameEN,
+        };
+        props.onSavedMovie(savedMovies);
+      }
   }
 
   // редирект на трейлер по клику на изображение

@@ -65,7 +65,6 @@ async function savedMoves(
   image,
   trailerLink,
   thumbnail,
-  owner,
   movieId,
   nameRU,
   nameEN
@@ -85,7 +84,6 @@ async function savedMoves(
       image,
       trailerLink,
       thumbnail,
-      owner,
       movieId,
       nameRU,
       nameEN,
@@ -95,8 +93,8 @@ async function savedMoves(
 }
 
 // удаление фильма
-async function deleteMoves(movieId) {
-  const res = await fetch(`${apiUrl}/movies/${movieId}`, {
+async function deleteMoves(_id) {
+  const res = await fetch(`${apiUrl}/movies/${_id}`, {
     headers: {
       Authorization: `Bearer ${localStorage.getItem("jwt")}`,
     },

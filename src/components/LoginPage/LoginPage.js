@@ -10,7 +10,9 @@ export default function LoginPage({
   children,
   onSubmit,
   message,
+  isButtonActiv
 }) {
+
   return (
     <div className="login-page">
       <img src={logo} alt="Логотип" className="login-page__logo" />
@@ -24,6 +26,7 @@ export default function LoginPage({
             className={`login-page__submit-button ${buttomClass}`}
             type="submit"
             aria-label="Кнопка сохранения формы"
+            disabled={!isButtonActiv ? true : ""}
           >
             {buttomText}
           </button>

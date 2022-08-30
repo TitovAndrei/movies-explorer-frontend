@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { NavLink } from "react-router-dom";
+import { EMAIL_REGEXP } from "../../utils/constants.js";
 
 function Profile(props) {
   const [isEditProfile, setIsEditProfile] = useState(false);
@@ -15,9 +16,14 @@ function Profile(props) {
   const [isButtonActiv, setIsButtonActiv] = useState(false);
 
   useEffect(() => {
-    if (isValidEmail && isValidName) {
+    setName(props.currentUser.name);
+    setEmail(props.currentUser.email);
+  }, []);
+
+  useEffect(() => {
+    if (isValidName || isValidEmail ) {
       setIsButtonActiv(true);
-    } else {
+    } else if (!isValidEmail || !isValidName) {
       setIsButtonActiv(false);
     }
   }, [isValidEmail, isValidName]);
@@ -36,10 +42,15 @@ function Profile(props) {
   function handleEmailChandge(evt) {
     const target = evt.target;
     setEmail(target.value);
-    setErrorsEmail(target.validationMessage);
-    if (!target.validationMessage) {
-      setIsValidEmail(true);
+    if (EMAIL_REGEXP.test(target.value)) {
+      setErrorsEmail(target.validationMessage);
+      if (!target.validationMessage) {
+        setIsValidEmail(true);
+      } else {
+        setIsValidEmail(false);
+      }
     } else {
+      setErrorsEmail("Введен не корректный E-Mail");
       setIsValidEmail(false);
     }
   }
@@ -50,7 +61,9 @@ function Profile(props) {
 
   function saveProfileSubmit(evt) {
     evt.preventDefault();
-    props.onEditProfile(email, name);
+    props.onEditProfile(
+      email || props.currentUser.email,
+       name || props.currentUser.name);
     setIsEditProfile(false);
   }
 
@@ -85,7 +98,7 @@ function Profile(props) {
             <input
               type="text"
               name="name"
-              value={name || props.currentUser.name}
+              value={name || ""}
               placeholder="Имя"
               className="profile__input profile__field-meaning"
               required
@@ -101,7 +114,7 @@ function Profile(props) {
               type="email"
               name="email"
               autoComplete="on"
-              value={email || props.currentUser.email}
+              value={email || ""}
               placeholder="Email"
               className="profile__input profile__field-meaning"
               required
@@ -116,6 +129,7 @@ function Profile(props) {
             className={submitButtonClassName}
             type="submit"
             aria-label="Кнопка сохранения формы"
+            disabled={!isButtonActiv ? true : ""}
           >
             Сохранить
           </button>

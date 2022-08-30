@@ -1,5 +1,6 @@
 import React, { useEffect } from "react";
 import LoginPage from "../LoginPage/LoginPage.js";
+import { EMAIL_REGEXP } from "../../utils/constants.js";
 
 function Login(props) {
   const [email, setEmail] = React.useState("");
@@ -24,10 +25,15 @@ function Login(props) {
   function handleEmailChandge(evt) {
     const target = evt.target;
     setEmail(target.value);
-    setErrorsEmail(target.validationMessage);
-    if (!target.validationMessage) {
-      setIsValidEmail(true);
+    if (EMAIL_REGEXP.test(target.value)) {
+      setErrorsEmail(target.validationMessage);
+      if (!target.validationMessage) {
+        setIsValidEmail(true);
+      } else {
+        setIsValidEmail(false);
+      }
     } else {
+      setErrorsEmail("Введен не корректный E-Mail");
       setIsValidEmail(false);
     }
   }
@@ -59,7 +65,7 @@ function Login(props) {
       buttomClass={submitButtonClassName}
       buttomText="Войти"
       onSubmit={handleSubmit}
-      submitButtonСondition={isButtonActiv}
+      isButtonActiv={isButtonActiv}
       message={props.message}
     >
       <label className="login-page__input">

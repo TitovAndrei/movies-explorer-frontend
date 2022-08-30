@@ -1,5 +1,6 @@
 import React, { useEffect } from "react";
 import LoginPage from "../LoginPage/LoginPage.js";
+import { EMAIL_REGEXP } from "../../utils/constants.js";
 
 export default function Register(props) {
   const [name, setName] = React.useState("");
@@ -38,10 +39,15 @@ export default function Register(props) {
   function handleEmailChandge(evt) {
     const target = evt.target;
     setEmail(target.value);
-    setErrorsEmail(target.validationMessage);
-    if (!target.validationMessage) {
-      setIsValidEmail(true);
+    if (EMAIL_REGEXP.test(target.value)) {
+      setErrorsEmail(target.validationMessage);
+      if (!target.validationMessage) {
+        setIsValidEmail(true);
+      } else {
+        setIsValidEmail(false);
+      }
     } else {
+      setErrorsEmail("Введен не корректный E-Mail");
       setIsValidEmail(false);
     }
   }
@@ -75,6 +81,7 @@ export default function Register(props) {
       onSubmit={handleSubmit}
       submitButtonСondition={isButtonActiv}
       message={props.message}
+      isButtonActiv={isButtonActiv}
     >
       <label className="login-page__input">
         Имя

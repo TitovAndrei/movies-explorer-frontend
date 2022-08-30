@@ -32,10 +32,10 @@ import {
 import { getMovies } from "../../utils/MoviesApi.js";
 import ErrorPopup from "../ErrorPopup/ErrorPopup.js";
 import { errorDetection } from "../../utils/constants.js";
-import { savedMovies } from "../../utils/constants.js";
 
 function App() {
   const [movies, setMovies] = useState([]);
+  const [savedMovies, setSavedMovies] = useState([]);
   const [currentUser, setCurrentUser] = useState({});
   const [newMovies, setNewMovies] = useState([]);
   const [newSavedMovies, setNewSavedMovies] = React.useState([]);
@@ -46,16 +46,40 @@ function App() {
   const [message, setMessage] = useState("");
   const history = useHistory();
   const location = useLocation().pathname;
+  const [titleSelector, setTitleSelector] = useState("");
   const [seachTextMovies, setSeachTextMovies] = useState("");
   const [checboxMovies, setChecboxMovies] = useState(false);
-  const [seachTextMoviesSaved, setSeachTextMoviesSaved] = useState("");
-  const [checboxMoviesSaved, setChecboxMoviesSaved] = useState(false);
-  const [titleSelector, setTitleSelector] = useState("");
+  const [filterMovies, setFilterMovies] = useState([]);
 
   // эфекты при загрузке страницы
   useEffect(() => {
     onLogin();
+    setMessage("");
+    setFilterMovies(JSON.parse(localStorage.getItem("filterMovies")));
+    const checked = localStorage.getItem("checbox");
+    if(checked === "true") {
+      setChecboxMovies(true);
+    } else {
+      setChecboxMovies(false);
+    }
+    setSeachTextMovies(localStorage.getItem("textSearch"));
+    setMovies(JSON.parse(localStorage.getItem("moves")));
+    setNewSavedMovies(JSON.parse(localStorage.getItem("savedMovies")));
   }, []);
+
+  useEffect(() => {
+    setMessage("");
+    setFilterMovies(JSON.parse(localStorage.getItem("filterMovies")));
+    const checked = localStorage.getItem("checbox");
+    if(checked === "true") {
+      setChecboxMovies(true);
+    } else {
+      setChecboxMovies(false);
+    }
+    setSeachTextMovies(localStorage.getItem("textSearch"));
+    setMovies(JSON.parse(localStorage.getItem("moves")));
+    setNewSavedMovies(JSON.parse(localStorage.getItem("savedMovies")));
+  }, [location]);
 
   // попапы открытие
   function handleHamburgerMenuClick() {
@@ -78,13 +102,12 @@ function App() {
   }
 
   // закрытие попапов кнопкой esc и кликом по оверлею
-  const isOpen = isPreloaderPopupOpen || isHamburgerMenuOpen;
+  const isOpen = isErrorPopupOpen || isHamburgerMenuOpen;
 
   React.useEffect(() => {
     function handlePopupClose(evt) {
       if (
         evt.key === "Escape" ||
-        evt.target.classList.contains("preloader") ||
         evt.target.classList.contains("hamburger-menu") ||
         evt.target.classList.contains("error-popup")
       ) {
@@ -111,27 +134,31 @@ function App() {
           setLoggedIn(true);
           history.push("/movies");
           getMoviesSave();
-          getMovies()
-            .then((res) => {
-              if (res) {
-                localStorage.setItem("moves", JSON.stringify(res));
-                setMovies(res);
-              }
-            })
-            .catch((err) => {
-              console.log(err);
-            });
         })
-        .catch((err) => console.log(err));
+        .catch((err) => {
+          history.push("/sign-in");
+          console.log(err);
+        });
     }
-    
   }
 
   // выход из прифиля
   function onSignOut(e) {
     e.preventDefault();
-    localStorage.removeItem("jwt");
     setLoggedIn(false);
+    localStorage.removeItem("jwt");
+    localStorage.removeItem("savedMovies");
+    localStorage.removeItem("filterMovies");
+    localStorage.removeItem("textSearch");
+    localStorage.removeItem("checbox");
+    localStorage.removeItem("moves");
+    setSeachTextMovies("");
+    setChecboxMovies(false);
+    setNewMovies([]);
+    setMovies([]);
+    setNewSavedMovies([]);
+    setFilterMovies([]);
+    setCurrentUser({});
     history.push("/");
   }
 
@@ -199,66 +226,103 @@ function App() {
   }
 
   // поиск по фильмам
-  function handleMoviesSearch(textSearch, checbox) {
+  function handleMoviesSearch(searchText, checkbox) {
     setMessage("");
 
-    let moviesPortion;
-    let searchMovies;
+    if (movies && movies.length !== 0) {
+      setNewMovies([]);
+      setFilterMovies([]);
+      let searchMovies = [];
 
-    if (textSearch === "  ") {
-      handleErrorPopupOpen();
-      setTitleSelector("error-popup__union-title_error");
-      return setMessage("Нужно ввести ключевое слово");
-    }
-
-    if (location === "/movies") {
-      searchMovies = movies;
-      setSeachTextMovies(textSearch);
-      setChecboxMovies(checbox);
-    } else if (location === "/saved-movies") {
-      searchMovies = savedMovies;
-      setSeachTextMoviesSaved(textSearch);
-      setChecboxMoviesSaved(checbox);
-    }
-    if (textSearch.length > 0) {
-      moviesPortion = searchMovies.filter((movie) =>
-        JSON.stringify(movie.nameRU)
-          .toLowerCase()
-          .includes(textSearch.toLowerCase())
-      );
-      if (moviesPortion.length === 0) {
-        handleErrorPopupOpen();
-        setTitleSelector("error-popup__union-title_message");
-        return setMessage("Ничего не найдено");
+      if (location === "/movies") {
+        searchMovies = movies;
+      } else if (location === "/saved-movies") {
+        searchMovies = savedMovies;
       }
-      if (checbox) {
-        if (location === "/movies") {
-          setNewMovies(moviesPortion.filter((movie) => movie.duration <= 40));
-        } else if (location === "/saved-movies") {
-          setNewSavedMovies(
-            moviesPortion.filter((movie) => movie.duration <= 40)
-          );
+      if (searchText) {
+        const moviesPortion = searchMovies.filter((movie) =>
+          JSON.stringify(movie.nameRU)
+            .toLowerCase()
+            .includes(searchText.toLowerCase())
+        );
+        if (moviesPortion.length === 0) {
+          handleErrorPopupOpen();
+          setTitleSelector("error-popup__union-title_message");
+          return setMessage("Ничего не найдено");
         }
+        if (checkbox) {
+          if (location === "/movies") {
+            setNewMovies(moviesPortion.filter((movie) => movie.duration <= 40));
+          } else if (location === "/saved-movies") {
+            setNewSavedMovies(
+              moviesPortion.filter((movie) => movie.duration <= 40)
+            );
+          }
+        } else {
+          if (location === "/movies") {
+            setNewMovies(moviesPortion);
+          } else if (location === "/saved-movies") {
+            setNewSavedMovies(moviesPortion);
+          }
+        }
+        localStorage.setItem("filterMovies", JSON.stringify(moviesPortion));
+        closeAllPopups();
       } else {
-        if (location === "/movies") {
-          setNewMovies(moviesPortion);
-        } else if (location === "/saved-movies") {
-          setNewSavedMovies(moviesPortion);
-        }
+        setNewMovies([]);
+        setNewSavedMovies([]);
       }
     } else {
-      setNewMovies([]);
-      getMoviesSave();
+      getMoviesLocal();
     }
+  }
+
+  // проверяем фильмы в локал сторадж
+  function getMoviesLocal() {
+    handleLoading();
+    const localMovies = localStorage.getItem("moves");
+    if (localMovies !== null) {
+      try {
+        setMovies(JSON.parse(localStorage.getItem("moves")));
+        closeAllPopups();
+        handleErrorPopupOpen();
+        setTitleSelector("error-popup__union-title_message");
+        setMessage(
+          "Подключение к удаленному серверу установлено, можете осуществлять поиск"
+        );
+      } catch {
+        getMoviesApi();
+      }
+    } else {
+      getMoviesApi();
+    }
+  }
+
+  // запрашиваем фильмы со стороннего API
+  function getMoviesApi() {
+    getMovies()
+      .then((res) => {
+        setMovies(res);
+        localStorage.setItem("moves", JSON.stringify(res));
+        getMoviesLocal();
+      })
+      .catch(() => {
+        setMessage(
+          errorDetection(
+            "Во время запроса произошла ошибка. Возможно, проблема с соединением или сервер недоступен. Подождите немного и попробуйте ещё раз"
+          )
+        );
+        setTitleSelector("error-popup__union-title_error");
+        handleErrorPopupOpen();
+      });
   }
 
   //запрос сохраненных карточек
   function getMoviesSave() {
     getSavedMove()
-      .then((movies) => {
-        setNewSavedMovies(movies);
-        localStorage.setItem("savedMovies", JSON.stringify(movies));
-        movies.forEach((movie) => {
+      .then((moviesSaved) => {
+        setNewSavedMovies(moviesSaved);
+        localStorage.setItem("savedMovies", JSON.stringify(moviesSaved));
+        moviesSaved.forEach((movie) => {
           const newMovie = movies.find((i) => i.id === movie.movieId);
           if (newMovie !== undefined) {
             newMovie.saved = true;
@@ -275,22 +339,57 @@ function App() {
 
   // сохранение фильма
   function onChangeSavedMovies(movie) {
-    savedMoves(
-      movie.country,
-      movie.director,
-      movie.duration,
-      movie.year,
-      movie.description,
-      movie.image,
-      movie.trailerLink,
-      movie.thumbnail,
-      movie.owner,
-      movie.movieId,
-      movie.nameRU,
-      movie.nameEN
-    )
+    const savMovie = savedMovies.find(
+      (movies) => movies.movieId === movie.movieId
+    );
+    if (savMovie === undefined) {
+      savedMoves(
+        movie.country,
+        movie.director,
+        movie.duration,
+        movie.year,
+        movie.description,
+        movie.image,
+        movie.trailerLink,
+        movie.thumbnail,
+        movie.movieId,
+        movie.nameRU,
+        movie.nameEN
+      )
+        .then((res) => {
+          const moviesSaveted = newSavedMovies;
+          moviesSaveted.push(res);
+          setNewSavedMovies(moviesSaveted);
+          localStorage.setItem("savedMovies", JSON.stringify(moviesSaveted));
+        })
+        .catch((err) => {
+          setMessage(errorDetection(err));
+          setTitleSelector("error-popup__union-title_error");
+          handleErrorPopupOpen();
+          console.log(err);
+        });
+    } else {
+      setMessage(
+        errorDetection("Данный фильм уже сохранен текущим пользователем")
+      );
+      setTitleSelector("error-popup__union-title_error");
+      handleErrorPopupOpen();
+    }
+  }
+
+  // удаление фильма
+  function onChangeDeleteMovies(movie) {
+    const deleteMovie = newSavedMovies.find(
+      (movies) => movies.movieId === movie.id
+    );
+    deleteMoves(deleteMovie._id)
       .then(() => {
-        getMoviesSave();
+        const newMovies = newSavedMovies.filter(
+          (movie) => movie._id !== deleteMovie._id
+        );
+        delete newMovies.saved;
+        setNewSavedMovies(newMovies);
+        localStorage.setItem("savedMovies", JSON.stringify(newMovies));
       })
       .catch((err) => {
         setMessage(errorDetection(err));
@@ -300,11 +399,13 @@ function App() {
       });
   }
 
-  // удаление фильма
-  function onChangeDeleteMovies(movieId) {
-    deleteMoves(movieId)
+  // удаление фильма из сохраненных
+  function onChangeDeleteSavedMovies(_id) {
+    deleteMoves(_id)
       .then(() => {
-        getMoviesSave();
+        const newMovies = newSavedMovies.filter((movie) => movie._id !== _id);
+        setNewSavedMovies(newMovies);
+        localStorage.setItem("savedMovies", JSON.stringify(newMovies));
       })
       .catch((err) => {
         setMessage(errorDetection(err));
@@ -338,9 +439,10 @@ function App() {
               onSearchMovies={handleMoviesSearch}
               onSavedMovie={onChangeSavedMovies}
               onDeleteMovie={onChangeDeleteMovies}
+              message={message}
               seachTextMovies={seachTextMovies}
               checboxMovies={checboxMovies}
-              message={message}
+              filterMovies={filterMovies}
             />
             <ProtectedRoute
               path="/saved-movies"
@@ -350,11 +452,9 @@ function App() {
               onLoading={handleLoading}
               onPopupClose={closeAllPopups}
               movies={newSavedMovies}
-              onDeleteMovie={onChangeDeleteMovies}
+              onDeleteMovie={onChangeDeleteSavedMovies}
               onSavedMovie={onChangeSavedMovies}
               onSearchMovies={handleMoviesSearch}
-              seachTextMoviesSaved={seachTextMoviesSaved}
-              checboxMoviesSaved={checboxMoviesSaved}
               message={message}
             />
             <ProtectedRoute
@@ -383,7 +483,6 @@ function App() {
           </Switch>
           <Footer />
         </div>
-        {/* Тестово прелоудер пока закрываю клавишей esc */}
         <Preloader isOpen={isPreloaderPopupOpen} nClose={closeAllPopups} />
         <HamburgerMenu isOpen={isHamburgerMenuOpen} onClose={closeAllPopups} />
         <ErrorPopup
