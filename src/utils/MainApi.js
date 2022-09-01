@@ -105,17 +105,15 @@ async function deleteMoves(_id) {
 
 // редакритование профиля
 // отправка информации на сервер
-async function setProfileInformation(email, name) {
+async function setProfileInformation(requestObject) {
+  console.log(requestObject)
   const res = await fetch(`${apiUrl}/users/me`, {
     headers: {
       Authorization: `Bearer ${localStorage.getItem("jwt")}`,
       "Content-Type": "application/json",
     },
     method: "PATCH",
-    body: JSON.stringify({
-      email,
-      name,
-    }),
+    body: JSON.stringify(requestObject),
   });
   return checkResponse(res);
 }

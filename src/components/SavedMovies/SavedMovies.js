@@ -1,22 +1,11 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import MoviesCard from "../../components/MoviesCard/MoviesCard.js";
 import searchIcon from "../../images/icon__COLOR_icon-color.svg";
 
 export default function SavedMovies(props) {
-  
   const [searchText, setSearchText] = useState("");
   const [checkbox, setCheckbox] = useState(false);
   const [errorsSearchText, setErrorsSearchText] = React.useState("");
-  const [isValidText, setIsValidText] = useState(false);
-  const [isButtonActiv, setIsButtonActiv] = useState(false);
-
-  useEffect(() => {
-    if (isValidText) {
-      setIsButtonActiv(true);
-    } else {
-      setIsButtonActiv(false);
-    }
-  }, [isValidText]);
 
   // отслеживаем состояние чекбокса
   function checkboxClick() {
@@ -25,30 +14,29 @@ export default function SavedMovies(props) {
     } else {
       setCheckbox(true);
     }
+    moviesSearch(searchText, !checkbox);
   }
 
   // отслеживаем состояние строки поиска
   function handleSearchTextChandge(evt) {
-    const target = evt.target;
-    setSearchText(target.value);
-    if(target.value === ""){
-      setErrorsSearchText("Нужно ввести ключевое слово");
-      setIsValidText(false);
-    } else if (target.value !== "") {
-      setErrorsSearchText(target.validationMessage);
-      if (!target.validationMessage) {
-        setIsValidText(true);
-      } else {
-        setIsValidText(false);
-      }
-    }
+    setSearchText(evt.target.value);
   }
 
   // запускаем поиск фильмов
   function handleMoviesSearch(e) {
     e.preventDefault();
-    props.onSearchMovies(searchText, checkbox);
+    if (searchText === "") {
+      setErrorsSearchText("Нужно ввести ключевое слово");
+    } else {
+      setErrorsSearchText("");
+      props.onSearchMovies(searchText, checkbox);
+    }
   }
+
+  function moviesSearch(searchText, checkbox) {
+    setErrorsSearchText("");
+    props.onSearchMovies(searchText, checkbox);
+}
 
   return (
     <section className="moves">
@@ -64,21 +52,16 @@ export default function SavedMovies(props) {
               type="text"
               className="search-form__text"
               placeholder="Фильм"
-              required
-              minLength="2"
               maxLength="40"
               value={searchText || ""}
               onChange={handleSearchTextChandge}
             />
-            <span className="search-form__field-error">
-            { errorsSearchText }
-            </span>
+            <span className="search-form__field-error">{errorsSearchText}</span>
           </label>
           <button
             className="search-form__enter"
             type="submit"
             aria-label="Кнопка запуска фильтрации"
-            disabled={!isButtonActiv ? true : ""}
           />
         </div>
         <div className="search-form__switch">

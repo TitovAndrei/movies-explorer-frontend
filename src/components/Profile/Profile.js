@@ -21,17 +21,35 @@ function Profile(props) {
   }, []);
 
   useEffect(() => {
-    if (isValidName || isValidEmail ) {
+    validationInput();
+  }, [isValidEmail]);
+
+  useEffect(() => {
+    validationInput();
+  }, [isValidName]);
+
+  function validationInput() {
+    if (isValidName || isValidEmail) {
       setIsButtonActiv(true);
     } else if (!isValidEmail || !isValidName) {
       setIsButtonActiv(false);
+    } 
+    if (errorsEmail !== "" || errorsName !== "") {
+      setIsButtonActiv(false);
     }
-  }, [isValidEmail, isValidName]);
+  }
 
   function handleNameChandge(evt) {
     const target = evt.target;
     setName(target.value);
     setErrorsName(target.validationMessage);
+    if (target.value === props.currentUser.name) {
+      setIsValidName(false);
+      setIsButtonActiv(false);
+    } else if ((target.value !== props.currentUser.name && !target.validationMessage) ) {
+      setIsValidName(true);
+      setIsButtonActiv(true);
+    }
     if (!target.validationMessage) {
       setIsValidName(true);
     } else {
@@ -53,6 +71,13 @@ function Profile(props) {
       setErrorsEmail("Введен не корректный E-Mail");
       setIsValidEmail(false);
     }
+    if (target.value === props.currentUser.email) {
+      setIsButtonActiv(false);
+      setIsValidEmail(false);
+    } else if (target.value !== props.currentUser.email && !target.validationMessage) {
+      setIsButtonActiv(true);
+      setIsValidEmail(true);
+    }
   }
 
   function handleEditProfile() {
@@ -61,9 +86,18 @@ function Profile(props) {
 
   function saveProfileSubmit(evt) {
     evt.preventDefault();
-    props.onEditProfile(
-      email || props.currentUser.email,
-       name || props.currentUser.name);
+    if (email === props.currentUser.email && name !== props.currentUser.name) {
+      const requestObject = { name: name };
+      props.onEditProfile(requestObject);
+    }
+    if (email !== props.currentUser.email && name === props.currentUser.name) {
+      const requestObject = { email: email };
+      props.onEditProfile(requestObject);
+    }
+    if (email !== props.currentUser.email && name !== props.currentUser.name) {
+      const requestObject = { email: email, name: name };
+      props.onEditProfile(requestObject);
+    }
     setIsEditProfile(false);
   }
 
@@ -73,7 +107,7 @@ function Profile(props) {
 
   return (
     <section className="profile">
-      <p className="profile__title">Привет, Андрей!</p>
+      <p className="profile__title">Привет, {props.currentUser.name}!</p>
       {isEditProfile === false ? (
         <>
           <div className="profile__field">
