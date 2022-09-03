@@ -106,7 +106,6 @@ async function deleteMoves(_id) {
 // редакритование профиля
 // отправка информации на сервер
 async function setProfileInformation(requestObject) {
-  console.log(requestObject)
   const res = await fetch(`${apiUrl}/users/me`, {
     headers: {
       Authorization: `Bearer ${localStorage.getItem("jwt")}`,

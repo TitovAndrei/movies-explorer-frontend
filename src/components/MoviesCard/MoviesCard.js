@@ -7,8 +7,13 @@ export default function MoviesCard(props) {
 
   // определяю иконку лайка или удаления карточки
   useEffect(() => {
-    if(props.savedStatus) {
-      setMovieSaved(true)
+    if (props.savedStatus) {
+      setMovieSaved(true);
+      if (props.message === "") {
+        setMovieSaved(true);
+      } else {
+        setMovieSaved(false);
+      }
     }
   }, []);
 

@@ -240,32 +240,21 @@ function App() {
   function handleMoviesSearch(searchText, checkbox) {
     setMessage("");
     if (!movies || movies.length === 0) {
-      getMoviesLocal();
+      handleLoading();
+      getMoviesApi(searchText, checkbox)
     }
-    if (movies) {
-      moviesSearch(searchText, checkbox);
+    if (movies.length > 0) {
+        moviesSearch(searchText, checkbox);
     }
-  }
-
-  // проверяем фильмы в локал сторадж
-  function getMoviesLocal() {
-    handleLoading();
-    const localMovies = localStorage.getItem("moves");
-    if (localMovies !== null) {
-      return setMovies(JSON.parse(localStorage.getItem("moves")));
-    } else {
-      getMoviesApi();
-    }
-    return;
   }
 
   // запрашиваем фильмы со стороннего API
-  function getMoviesApi() {
+function getMoviesApi(searchText, checkbox) {
     getMovies()
       .then((res) => {
         setMovies(res);
         localStorage.setItem("moves", JSON.stringify(res));
-        getMoviesLocal();
+        moviesSearch(searchText, checkbox);
         return;
       })
       .catch(() => {
@@ -275,7 +264,7 @@ function App() {
         setTitleSelector("error-popup__union-title_error");
         handleErrorPopupOpen();
       });
-      return;
+    return;
   }
 
   function moviesSearch(searchText, checkbox) {
@@ -284,7 +273,12 @@ function App() {
     let searchMovies = [];
 
     if (location === "/movies") {
-      searchMovies = movies;
+      if(movies.length === 0) {
+        searchMovies = JSON.parse(localStorage.getItem("moves"));
+      } 
+      if(movies.length > 0) {
+        searchMovies = movies;
+      }
     } else if (location === "/saved-movies") {
       searchMovies = savedMovies;
     }
@@ -336,21 +330,11 @@ function App() {
       .then((moviesSaved) => {
         setNewSavedMovies(moviesSaved);
         localStorage.setItem("savedMovies", JSON.stringify(moviesSaved));
-        moviesSaved.forEach((movie) => {
-          const newMovie = movies.find((i) => i.id === movie.movieId);
-          if (newMovie !== undefined) {
-            newMovie.saved = true;
-            setNewMovies(
-              movies.map((i) => (i.id === movie.movieId ? newMovie : i))
-            );
-          }
-        });
       })
       .catch(() => {
         setNewSavedMovies([]);
       });
   }
-
   // сохранение фильма
   function onChangeSavedMovies(movie) {
     const savMovie = savedMovies.find(
@@ -405,7 +389,6 @@ function App() {
         const newMovies = newSavedMovies.filter(
           (movie) => movie._id !== deleteMovie._id
         );
-        delete newMovies.saved;
         setNewSavedMovies(newMovies);
         localStorage.setItem("savedMovies", JSON.stringify(newMovies));
       })
