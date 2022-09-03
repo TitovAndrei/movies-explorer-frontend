@@ -9,11 +9,6 @@ export default function MoviesCard(props) {
   useEffect(() => {
     if (props.savedStatus) {
       setMovieSaved(true);
-      if (props.message === "") {
-        setMovieSaved(true);
-      } else {
-        setMovieSaved(false);
-      }
     }
   }, []);
 
@@ -22,7 +17,7 @@ export default function MoviesCard(props) {
   }, [movieSaved]);
 
   function cardLikeButtonClassName() {
-    if (movieSaved === true || props.savedStatus) {
+    if ((movieSaved === true) & (props.message === "") || props.savedStatus) {
       return "movies-card__saved movies-card__saved_actived";
     } else {
       return "movies-card__saved";
