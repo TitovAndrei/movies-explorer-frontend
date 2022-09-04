@@ -2,22 +2,11 @@ import React, { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
 
 export default function MoviesCard(props) {
-  const [movieSaved, setMovieSaved] = useState(false);
   const location = useLocation().pathname;
 
   // определяю иконку лайка или удаления карточки
-  useEffect(() => {
-    if (props.savedStatus) {
-      setMovieSaved(true);
-    }
-  }, []);
-
-  useEffect(() => {
-    cardLikeButtonClassName();
-  }, [movieSaved]);
-
   function cardLikeButtonClassName() {
-    if ((movieSaved === true) & (props.message === "") || props.savedStatus) {
+    if (props.savedStatus) {
       return "movies-card__saved movies-card__saved_actived";
     } else {
       return "movies-card__saved";
@@ -25,12 +14,10 @@ export default function MoviesCard(props) {
   }
 
   function handleMovieSaved() {
-    if (movieSaved) {
-      setMovieSaved(false);
+    if (props.savedStatus) {
       props.onDeleteMovie(props.movie);
     }
-    if (!movieSaved) {
-      setMovieSaved(true);
+    if (!props.savedStatus) {
       const savedMovies = {
         country: props.movie.country,
         director: props.movie.director,

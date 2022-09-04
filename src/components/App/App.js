@@ -368,7 +368,6 @@ function getMoviesApi(searchText, checkbox) {
           setMessage(errorDetection(err));
           setTitleSelector("error-popup__union-title_error");
           handleErrorPopupOpen();
-          console.log(err);
         });
     } else {
       setMessage(
@@ -396,7 +395,6 @@ function getMoviesApi(searchText, checkbox) {
         setMessage(errorDetection(err));
         setTitleSelector("error-popup__union-title_error");
         handleErrorPopupOpen();
-        console.log(err);
       });
   }
 
@@ -413,7 +411,6 @@ function getMoviesApi(searchText, checkbox) {
         setMessage(errorDetection(err));
         setTitleSelector("error-popup__union-title_error");
         handleErrorPopupOpen();
-        console.log(err);
       });
   }
 
