@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { useLocation } from "react-router-dom";
 
 export default function MoviesCard(props) {
@@ -17,7 +17,7 @@ export default function MoviesCard(props) {
     if (props.savedStatus) {
       props.onDeleteMovie(props.movie);
     }
-    if (!props.savedStatus) {
+    if (!props.savedStatus || props.savedStatus === undefined) {
       const savedMovies = {
         country: props.movie.country,
         director: props.movie.director,

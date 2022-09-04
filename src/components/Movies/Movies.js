@@ -96,8 +96,8 @@ function Movies(props) {
       props.onSearchMovies(searchText, checkbox);
   }
 
-  // перерисовываем фильмы если изменился массив в промисе
-  useEffect(() => {
+   // перерисовываем фильмы если изменился массив в промисе
+   useEffect(() => {
     moviesRender();
   }, [props.movies]);
 
@@ -134,6 +134,7 @@ function Movies(props) {
     }
   }, [newMovies]);
 
+
   //запрос сохраненных карточек
   function getSavedMovies(movie) {
     const newSavedMovies = props.savedMovies.find(
@@ -141,6 +142,8 @@ function Movies(props) {
     );
     if (newSavedMovies !== undefined) {
       return true;
+    } else {
+      return false;
     }
   }
 
@@ -198,7 +201,6 @@ function Movies(props) {
             onSavedMovie={props.onSavedMovie}
             onDeleteMovie={props.onDeleteMovie}
             savedStatus={getSavedMovies(movie)}
-            message={props.message}
           />
         ))}
       </div>

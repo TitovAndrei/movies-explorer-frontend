@@ -360,9 +360,9 @@ function getMoviesApi(searchText, checkbox) {
         .then((res) => {
           const moviesSaveted = newSavedMovies;
           moviesSaveted.push(res);
-          setNewSavedMovies(moviesSaveted);
-          setSavedMovies(moviesSaveted);
           localStorage.setItem("savedMovies", JSON.stringify(moviesSaveted));
+          setNewSavedMovies(JSON.parse(localStorage.getItem("savedMovies")));
+          setSavedMovies(JSON.parse(localStorage.getItem("savedMovies")));
         })
         .catch((err) => {
           setMessage(errorDetection(err));
