@@ -1,29 +1,72 @@
-import React from "react";
+import React, { useEffect } from "react";
 import LoginPage from "../LoginPage/LoginPage.js";
+import { EMAIL_REGEXP } from "../../utils/constants.js";
 
-function Login() {
+function Login(props) {
   const [email, setEmail] = React.useState("");
-  const [password, setpassword] = React.useState("");
+  const [password, setPassword] = React.useState("");
+
+  const [errorsEmail, setErrorsEmail] = React.useState("");
+  const [errorsPassword, setErrorsPassword] = React.useState("");
+
+  const [isValidEmail, setIsValidEmail] = React.useState(false);
+  const [isValidPassword, setIsValidPassword] = React.useState(false);
+
+  const [isButtonActiv, setIsButtonActiv] = React.useState(false);
+
+  useEffect(() => {
+    if (isValidEmail && isValidPassword) {
+      setIsButtonActiv(true);
+    } else {
+      setIsButtonActiv(false);
+    }
+  }, [isValidEmail, isValidPassword]);
 
   function handleEmailChandge(evt) {
-    setEmail(evt.target.value);
+    const target = evt.target;
+    setEmail(target.value);
+    if (EMAIL_REGEXP.test(target.value)) {
+      setErrorsEmail(target.validationMessage);
+      if (!target.validationMessage) {
+        setIsValidEmail(true);
+      } else {
+        setIsValidEmail(false);
+      }
+    } else {
+      setErrorsEmail("Введен не корректный E-Mail");
+      setIsValidEmail(false);
+    }
   }
 
   function handlePasswordChandge(evt) {
-    setpassword(evt.target.value);
+    const target = evt.target;
+    setPassword(target.value);
+    setErrorsPassword(target.validationMessage);
+    if (!target.validationMessage) {
+      setIsValidPassword(true);
+    } else {
+      setIsValidPassword(false);
+    }
   }
 
-  function handleSubmit(e) {
-    e.preventDefault();
+  function handleSubmit(evt) {
+    evt.preventDefault();
+    props.onAuth(email, password);
   }
+
+  const submitButtonClassName = `login-page__submit-button_auth ${
+    isButtonActiv ? "" : "login-page__submit-button_disabled"
+  }`;
 
   return (
     <LoginPage
       formName="authorization"
       title="Рады видеть!"
-      buttomClass="login-page__submit-button_auth"
+      buttomClass={submitButtonClassName}
       buttomText="Войти"
       onSubmit={handleSubmit}
+      isButtonActiv={isButtonActiv}
+      message={props.message}
     >
       <label className="login-page__input">
         E-mail
@@ -39,6 +82,7 @@ function Login() {
           maxLength="40"
           onChange={handleEmailChandge}
         />
+        <span className="login-page__field-error">{errorsEmail}</span>
       </label>
       <label className="login-page__input">
         Пароль
@@ -54,6 +98,7 @@ function Login() {
           maxLength="200"
           onChange={handlePasswordChandge}
         />
+        <span className="login-page__field-error">{errorsPassword}</span>
       </label>
     </LoginPage>
   );

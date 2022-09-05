@@ -61,14 +61,14 @@
 .about-project__stage_gray {
     margin: 0px 0px 5px 0px;
     background-color: #F2F2F2;
-    
+
 }
 
 @media screen and (max-width: 1170px) {
     .about-project {
         margin: 0px 50px 0px 50px;
     }
-    
+
     .about-project__stage-subtitle {
         font-size: 12px;
         line-height: 18px;

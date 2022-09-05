@@ -13,7 +13,15 @@
     margin: 80px auto 0px auto;
     border: #E8E8E8 1px solid;
     border-radius: 6px;
-    transition: .5s;
+    transition: opacity 0.7s, visibility 0.7s;
+    opacity: 1;
+    visibility: visible;
+}
+
+.show-more_disabled {
+    transition: opacity 0.7s, visibility 0.7s;
+    opacity: 0;
+    visibility: hidden;
 }
 
 .show-more:hover {

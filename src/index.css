@@ -16,7 +16,6 @@
 @import url(./components/Preloader/Preloader.css);
 @import url(./components/Profile/Profile.css);
 @import url(./components/Promo/Promo.css);
-@import url(./components/SavedMovies/Saved-movies.css);
 @import url(./components/SearchForm/Search-form.css);
 @import url(./components/ShowMore/Show-more.css);
 @import url(./components/Techs/Techs.css);
@@ -24,3 +23,4 @@
 @import url(./components/FilterCheckbox/Filter-checkbox.css);
 @import url(./components/LoginPage/Login-page.css);
 @import url(./components/HamburgerMenu/Hamburger-menu.css);
+@import url(./components/ErrorPopup/ErrorPopup.css);

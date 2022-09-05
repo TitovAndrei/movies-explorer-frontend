@@ -1,0 +1,110 @@
+.error-popup {
+    color: #000;
+    width: 100%;
+    height: 100%;
+    justify-content: center;
+    align-items: center;
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    left: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    transition: opacity 0.7s, visibility 0.7s;
+    opacity: 0;
+    visibility: hidden;
+    display: flex;
+}
+
+.error-popup_opened {
+    transition: opacity 0.7s, visibility 0.7s;
+    opacity: 1;
+    visibility: visible;
+    display: flex;
+}
+
+
+.error-popup__title {
+    font-style: normal;
+    font-weight: 900;
+    font-size: 24px;
+    line-height: 29px;
+    margin: 34px 64px 46px 36px;
+}
+
+.error-popup__container {
+    position: relative;
+    width: 430px;
+    height: 330px;
+    background: #FFFFFF;
+    box-shadow: 0px 0px 25px rgba(0, 0, 0, 0.15);
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    padding: 0;
+    margin: 0;
+    justify-content: center;
+    align-items: center;
+}
+
+.error-popup__close-icon {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    border: none;
+    background-image: url('../../images/Group.svg');
+    background-color: rgba(0, 0, 0, 0);
+    background-repeat: no-repeat;
+    background-position: center;
+    width: 32px;
+    height: 32px;
+}
+
+.error-popup__close-icon:hover {
+    opacity: 0.6;
+    cursor: pointer;
+}
+
+
+.error-popup__union-title {
+    margin: 40px auto 40px auto;
+    font-style: normal;
+    font-weight: 900;
+    font-size: 24px;
+    line-height: 29px;
+    text-align: center;
+    width: 358px;
+}
+
+.error-popup__union-title_error {
+    color: red;
+}
+
+.error-popup__union-title_message {
+    color: green;
+}
+
+@media screen and (max-width: 800px) {
+    .error-popup__union-title {
+        font-size: 20px;
+        width: 244px;
+    }
+
+    .error-popup__title {
+        font-size: 18px;
+        line-height: 22px;
+        margin: 25px auto 71px auto;
+    }
+
+    .error-popup__close-icon {
+        width: 20px;
+        height: 20px;
+        top: 10px;
+        right: 10px;
+    }
+
+    .error-popup__container {
+        width: 280px;
+        height: 308px;
+    }
+}

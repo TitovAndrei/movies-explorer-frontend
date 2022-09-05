@@ -19,7 +19,7 @@
     font-size: 11px;
     line-height: 13px;
     color: #000000;
-    text-align: right;
+    text-align: left;
 }
 
 .profile__field {
@@ -27,7 +27,7 @@
     width: 410px;
     border-bottom: #E8E8E8 1px solid;
     display: grid;
-    grid-template-columns: auto auto;
+    grid-template-columns: 52px auto;
     grid-template-rows: auto auto;
     justify-content: space-between;
 }
@@ -81,8 +81,9 @@
 }
 
 .profile__input {
+    text-align: right;
     border: none;
-    width: 300px;
+    width: 351px;
 }
 
 .profile__input:focus {
@@ -92,7 +93,13 @@
     border-radius: 10px;
 }
 
+.profile__input-block {
+    display: flex;
+}
+
 .profile__field-error {
+    width: 410px;
+    grid-column: span 2;
     font-style: normal;
     font-weight: 400;
     font-size: 10px;
@@ -125,6 +132,20 @@
     cursor: pointer;
 }
 
+.profile__submit-button_disabled {
+    background: #fff;
+    color: #000;
+    border: 1px solid #000000;
+    box-sizing: border-box;
+    border-radius: 3px;
+    opacity: .2;
+}
+
+.profile__submit-button_disabled:hover {
+    opacity: .2;
+    cursor: default;
+}
+
 
 @media screen and (max-width: 1164px) {
     .profile__title {
@@ -138,7 +159,10 @@
     .profile__button-edit {
         margin: 197px 0px 16px 0px;
     }
-    
+
+    .profile__input {
+        width: 350px;
+    }
 }
 
 @media screen and (max-width: 767px) {
@@ -171,6 +195,10 @@
     }
 
     .profile__input {
-        width: 150px;
+        width: 200px;
+    }
+
+    .profile__field-error {
+        width: 259px;
     }
 }
